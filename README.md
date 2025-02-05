@@ -53,15 +53,14 @@ The application uses Pinia for state management with the following stores:
 
 The application communicates with a Spring Boot backend running on `localhost:8080`:
 
-```typescript
-// API Endpoints
-POST /api/login    # User authentication
-POST /api/join     # User registration
-POST /api/logout   # User logout
-POST /api/reissue  # Token reissue
-GET  /api/hello    # Protected user endpoint
-GET  /api/admin    # Protected admin endpoint
-```
+### API Endpoints
+
+- **POST** /api/login    # User authentication
+- **POST** /api/join     # User registration
+- **POST** /api/logout   # User logout
+- **POST** /api/reissue  # Token reissue
+- **GET**  /api/hello    # Protected user endpoint
+- **GET**  /api/admin    # Protected admin endpoint
 
 ## Project Setup
 
