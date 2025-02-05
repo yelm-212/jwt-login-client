@@ -118,10 +118,6 @@ VITE_API_URL=http://localhost:8080
 4. Push to the branch: `git push origin feature/my-feature`
 5. Submit a pull request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Related Projects
 
 - [Spring Security + JWT Login Backend](https://github.com/yelm-212/spring-jwt-login-logout)
