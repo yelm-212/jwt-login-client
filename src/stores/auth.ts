@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import type { APIError } from '@/types/error'
 
 interface UserState {
   token: string | null
@@ -30,8 +31,11 @@ export const useAuthStore = defineStore('auth', {
           return true
         }
       } catch (error) {
-        console.error('Login error:', error)
-        throw error
+        if (axios.isAxiosError(error) && error.response?.data) {
+          const apiError = error.response.data as APIError;
+          throw apiError;  // 에러 객체를 상위로 전달
+        }
+        throw error;
       }
       return false
     },

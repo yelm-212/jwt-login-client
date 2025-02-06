@@ -33,6 +33,7 @@ import { reactive } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import type { APIError } from '@/types/error'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -48,8 +49,11 @@ const handleLogin = async () => {
     ElMessage.success('Login successful')
     router.push('/dashboard')
   } catch (error) {
-    ElMessage.error('Login failed')
-    console.log(error)
+    if ((error as APIError).message) {
+      ElMessage.error(`Login Failed: ${(error as APIError).message}`)
+    } else {
+      ElMessage.error('An unexpected error occurred')
+    }
   }
 }
 </script>
