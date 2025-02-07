@@ -69,27 +69,22 @@ export const useAuthStore = defineStore('auth', {
 
     async reissueToken() {
       try {
-        if (this.token) {
-          const response = await axios.post('/api/reissue', null, {
-            headers: {
-              'Authorization': this.token
-            }
-          })
-
-          const newToken = response.headers['authorization']
-          if (newToken) {
-            this.token = newToken
-            localStorage.setItem('token', newToken)
-            ElMessage.success('Token reissued successfully')
-            return true
+        const response = await axios.post('/api/reissue', null, {
+          headers: {
+            'Authorization': this.token
           }
+        })
+
+        const newToken = response.headers['authorization']
+        if (newToken) {
+          this.token = newToken
+          localStorage.setItem('token', newToken)
+          return response
         }
+        throw new Error('No token in response')
       } catch (error) {
-        console.error('Token reissue error:', error)
-        ElMessage.error('Failed to reissue token')
         throw error
       }
-      return false
     }
   }
 })
