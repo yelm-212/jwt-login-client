@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/plugins/axios'
 import { ElMessage } from 'element-plus'
 import type { APIError } from '@/types/error'
 
@@ -9,6 +9,8 @@ interface UserState {
   isAdmin: boolean
 }
 
+export type AuthStore = ReturnType<typeof useAuthStore>
+
 export const useAuthStore = defineStore('auth', {
   state: (): UserState => ({
     token: localStorage.getItem('token'),
@@ -17,6 +19,14 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
+
+    clearAuth() {
+      this.token = null
+      this.username = null
+      this.isAdmin = false
+      localStorage.removeItem('token')
+    },
+
     async login(username: string, password: string) {
       try {
         const response = await axios.post('/api/login', {

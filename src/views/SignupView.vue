@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import axios from '@/plugins/axios'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()
