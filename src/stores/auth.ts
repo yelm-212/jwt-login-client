@@ -1,13 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from '@/plugins/axios'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import type { APIError } from '@/types/error'
-
-interface UserState {
-  token: string | null
-  username: string | null
-  isAdmin: boolean
-}
+import type { UserState } from '@/types/user_state.ts'
 
 export type AuthStore = ReturnType<typeof useAuthStore>
 
@@ -15,11 +10,10 @@ export const useAuthStore = defineStore('auth', {
   state: (): UserState => ({
     token: localStorage.getItem('token'),
     username: null,
-    isAdmin: false
+    isAdmin: false,
   }),
 
   actions: {
-
     clearAuth() {
       this.token = null
       this.username = null
@@ -31,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axios.post('/api/login', {
           username,
-          password
+          password,
         })
 
         const token = response.headers['authorization']
@@ -42,10 +36,10 @@ export const useAuthStore = defineStore('auth', {
         }
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {
-          const apiError = error.response.data as APIError;
-          throw apiError;  // 에러 객체를 상위로 전달
+          const apiError = error.response.data as APIError
+          throw apiError // 에러 객체를 상위로 전달
         }
-        throw error;
+        throw error
       }
       return false
     },
@@ -55,8 +49,8 @@ export const useAuthStore = defineStore('auth', {
         if (this.token) {
           await axios.post('/api/logout', null, {
             headers: {
-              'Authorization': this.token
-            }
+              Authorization: this.token,
+            },
           })
         }
       } finally {
@@ -71,8 +65,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axios.post('/api/reissue', null, {
           headers: {
-            'Authorization': this.token
-          }
+            Authorization: this.token,
+          },
         })
 
         const newToken = response.headers['authorization']
@@ -85,6 +79,6 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         throw error
       }
-    }
-  }
+    },
+  },
 })
